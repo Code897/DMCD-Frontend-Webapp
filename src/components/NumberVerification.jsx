@@ -63,7 +63,7 @@ const NumberVerification = ({ onPhoneNumberChange, nullOtp, setNullOtp }) => {
           description: `An OTP has been sent to ${phoneNumber}`,
           status: "info",
           variant: "subtle",
-          duration: 9000,
+          duration: 5000,
           position: "bottom-right",
           isClosable: false,
         });

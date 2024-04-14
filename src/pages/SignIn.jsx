@@ -29,7 +29,7 @@ import logo from "../assets/images/DMCD-logos_transparent.png";
 import NumberVerification from "../components/NumberVerification";
 import Cookies from "js-cookie";
 import { useDispatch } from "react-redux";
-import { setUser } from "../store/actions/userActions";
+import { setUser, setUserLoggedIn } from "../store/actions/userActions";
 import { BACKEND_ENDPOINT } from "../constants";
 
 const SignIn = () => {
@@ -59,6 +59,7 @@ const SignIn = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [nullOtp, setNullOtp] = useState(false);
+  const [tabIndex, setTabIndex] = useState(0);
 
   const handleEmailChange = (event) => setSigninEmail(event.target.value);
   const handlePasswordChange = (event) => setPassword(event.target.value);
@@ -67,6 +68,7 @@ const SignIn = () => {
 
   const handleSignIn = () => {
     setLoading(true);
+    console.log(signinEmail,password);
     axios
       .post(`${BACKEND_ENDPOINT}signin`, {
         email: signinEmail,
@@ -76,14 +78,21 @@ const SignIn = () => {
         if (response.status === 200) {
           const { token } = response.data;
           Cookies.set("token", token, { expires: 5 });
-          navigate("/home");
           localStorage.setItem("userID", response.data.responseUser._id);
           dispatch(setUser(response.data.responseUser));
+          dispatch(setUserLoggedIn(true))
           setLoading(false);
+          navigate("/home")
         }
       })
       .catch((error) => {
-        console.error("Sign in failed:", error);
+        toast({
+          title: "Error",
+          description: error.response.data.error || "Error",
+          status: "error",
+          duration: 3000,
+          isClosable: true,
+        });
         setLoading(false);
       });
   };
@@ -197,7 +206,19 @@ const SignIn = () => {
     }
   };
 
-  const [tabIndex, setTabIndex] = useState(0);
+  // useEffect(() => {
+  //   const handleKeyPress = (event) => {
+  //     if (event.key === "Enter" && tabIndex===0) {
+  //         handleSignIn();
+  //     }
+  //   };
+
+  //   document.addEventListener("keypress", handleKeyPress);
+  //   return () => {
+  //     document.removeEventListener("keypress", handleKeyPress);
+  //   };
+  // }, [tabIndex]);
+
 
   useEffect(() => {
     if (userID && userID !== null) {
