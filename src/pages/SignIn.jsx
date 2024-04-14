@@ -68,7 +68,6 @@ const SignIn = () => {
 
   const handleSignIn = () => {
     setLoading(true);
-    console.log(signinEmail,password);
     axios
       .post(`${BACKEND_ENDPOINT}signin`, {
         email: signinEmail,
