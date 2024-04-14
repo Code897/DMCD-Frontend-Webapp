@@ -1,7 +1,6 @@
 import axios from 'axios';
-import { SET_USER, CLEAR_USER, UPDATE_USER,SET_USER_LOADING } from './actionTypes';
+import { SET_USER, CLEAR_USER, UPDATE_USER,SET_USER_LOADING,SET_USER_LOGGED_IN } from './actionTypes';
 import { BACKEND_ENDPOINT } from '../../constants';
-import { type } from '@testing-library/user-event/dist/type';
 
 export const setUser = (userData) => ({
     type: SET_USER,
@@ -22,6 +21,11 @@ export const setUserLoading = (loading) =>({
     payload: loading
 })
 
+export const setUserLoggedIn = (loggedIn) =>({
+    type:SET_USER_LOGGED_IN,
+    payload: loggedIn
+})
+
 
 export const fetchUserData = (userID) => {
     return async (dispatch) => {
@@ -30,6 +34,7 @@ export const fetchUserData = (userID) => {
             const response = await axios.get(`${BACKEND_ENDPOINT}user/${userID}`);
             if(response.status === 200){
             dispatch(setUser(response.data.user))
+            setUserLoggedIn(true)
                 setUserLoading(false)
         };
         } catch (error) {
