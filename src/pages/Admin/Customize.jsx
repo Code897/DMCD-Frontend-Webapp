@@ -3,9 +3,11 @@
     import React, { useState } from 'react'
     import { useSelector } from 'react-redux'
 import { BACKEND_ENDPOINT } from '../../constants'
+import { WarningTwoIcon } from '@chakra-ui/icons'
 
     const Customize = () => {
         const user = useSelector(state => state.user.user)
+        const userLoggedIn = useSelector(state => state.userLoggedIn)
         const [image, setImage] = useState(null);
         const [text, setText] = useState('');
         const [title,setTitle]=useState('');
@@ -53,7 +55,7 @@ import { BACKEND_ENDPOINT } from '../../constants'
         return (
             <>
                 {
-                    user.usertype === "ADMIN" ? (
+                    userLoggedIn && user.usertype === "ADMIN" ? (
                         <Box className='flex justify-center items-center flex-col pt-20 h-full'>
                             <Box className=' bg-primary rounded-lg shadow-2xl'>
                                 <Box className='flex jsutify-center items-center flex-col mt-4 p-3'>
@@ -80,7 +82,14 @@ import { BACKEND_ENDPOINT } from '../../constants'
                             </Box>
                         </Box>
                     ) : (
-                        <Box>This Page is only accessible to admin</Box>
+                        <Box className="h-full grid grid-rows-2 justify-center items-center">
+          <Box className="h-full flex justify-center items-end row-span-1">
+            <WarningTwoIcon
+              style={{ color: "red", height: "25%", width: "25%" }}
+            />
+          </Box>
+          <Box  className="h-full flex justify-center items-start row-span-1 font-bold">This Page is only accessible to admin</Box>
+        </Box>
                     )
                 }
             </>
