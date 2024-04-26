@@ -137,6 +137,11 @@ const SignIn = () => {
     } else if (!/^\S+@\S+$/.test(signUpFormData.email.trim())) {
       formErrors.email = "Invalid email format";
     }
+    if (!signUpFormData.phone.trim()) {
+      formErrors.phone = "Phone number is required";
+    } else if (!/^\d{10}$/.test(signUpFormData.phone.trim())) {
+      formErrors.phone = "Phone number must be 10 digits";
+    }
     if (!signUpFormData.password.trim()) {
       formErrors.password = "Password is required";
     }
@@ -315,14 +320,15 @@ const SignIn = () => {
                   </FormControl>
                 </TabPanel>
                 <TabPanel style={{ overflowY: "auto", maxHeight: "300px" }}>
-                  <Box display={!showForm ? "block" : "none"}>
+                  {/* <Box display={!showForm ? "block" : "none"}>
                     <NumberVerification
                       onPhoneNumberChange={handlePhoneNumberChange}
                       nullOtp={nullOtp}
                       setNullOtp={setNullOtp}
                     />
-                  </Box>
-                  <Box display={showForm ? "block" : "none"}>
+                  </Box> */}
+                  {/* <Box display={showForm ? "block" : "none"}> */}
+                  <Box>
                     <form onSubmit={handleSignUp}>
                       <FormControl isInvalid={errors.name}>
                         <Input
@@ -352,7 +358,7 @@ const SignIn = () => {
                       <FormControl mt={4}>
                         <Input
                           type="tel"
-                          readOnly
+                          // readOnly
                           name="phone"
                           value={signUpFormData.phone}
                           onChange={handleChange}
