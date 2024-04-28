@@ -49,7 +49,7 @@ const BlogDetailed = () => {
                             <ListItem className='font-bold' key={index}>{highlight}</ListItem>
                         ))}
                     </UnorderedList>
-                    <Box className='mt-5 text-gray-700'>{blog.postStory}</Box>
+                    <Box className='mt-5 text-gray-700 overflow-y-scroll' style={{height:"200px"}}>{blog.postStory}</Box>
                 </Box>
             </Box>
         </>
